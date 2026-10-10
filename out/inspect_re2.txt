@@ -1,0 +1,152 @@
+suite=re2 root=data cases=270
+  ob cpu: 15
+  ob delay: 15
+  ob disk: 15
+  ob loss: 15
+  ob mem: 15
+  ob socket: 15
+  ss cpu: 15
+  ss delay: 15
+  ss disk: 15
+  ss loss: 15
+  ss mem: 15
+  ss socket: 15
+  tt cpu: 15
+  tt delay: 15
+  tt disk: 15
+  tt loss: 15
+  tt mem: 15
+  tt socket: 15
+
+=== all cases: metric files
+  re2ob_checkoutservice_cpu_2: rows_without_time=256 rows_before=720 rows_after=210  (data/RE2/RE2-OB/checkoutservice_cpu/2)
+  re2ob_checkoutservice_mem_2: rows_without_time=258 rows_before=720 rows_after=284  (data/RE2/RE2-OB/checkoutservice_mem/2)
+  cases with a note: 2 of 270
+
+=== system ob: 90 cases
+  files in first case: ['cluster_info.json', 'inject_time.txt', 'logs.csv', 'logts.csv', 'metrics.csv', 'metrics_postprocess.log', 'pod-node-1.csv', 'pod-node-2.csv', 'simple_metrics.csv', 'traces.csv', 'tracets_err.csv', 'tracets_lat.csv']
+  case re2ob_checkoutservice_cpu_1: services=12 metric_cols=72 median_step_s=1.0
+    services: ['adservice', 'cartservice', 'checkoutservice', 'currencyservice', 'emailservice', 'frontend', 'frontend-external', 'paymentservice', 'productcatalogservice', 'recommendationservice', 'redis', 'shippingservice']
+    metric suffixes: {'cpu': 11, 'mem': 11, 'diskio': 4, 'socket': 11, 'workload': 11, 'error': 4, 'latency-50': 10, 'latency-90': 10}
+    normal-window cpu: n=7920 min=0.06279 p50=0.6902 p95=18.74 max=19.42
+    normal-window mem: n=7920 min=3.006e+06 p50=3.865e+07 p95=1.115e+08 max=1.117e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'cluster_id', 'log_template', 'ts'] rows=171322
+    log container names: ['adservice', 'cartservice', 'checkoutservice', 'currencyservice', 'emailservice', 'frontend', 'paymentservice', 'recommendationservice', 'redis', 'shippingservice']
+    normal-window log levels: {'info': 35467, 'debug': 28365, 'INFO': 11996}
+    log ts range vs inject (s): -720 .. 720
+    traces columns: ['time', 'traceID', 'spanID', 'serviceName', 'methodName', 'operationName', 'startTimeMillis', 'startTime', 'duration', 'statusCode', 'parentSpanID', 'ts'] rows=391997
+    normal-window statusCode: {'0.0': 187380, nan: 9192}
+    trace service names: ['checkoutservice', 'currencyservice', 'emailservice', 'frontendservice', 'paymentservice', 'productcatalogservice', 'recommendationservice']
+    normal-window span duration (raw unit) p50=2312.0 p99=412097.4100000011
+  case re2ob_checkoutservice_cpu_2: 256 metric rows without a timestamp (dropped)
+  case re2ob_checkoutservice_cpu_2: services=14 metric_cols=74 median_step_s=1.0
+    services: ['InboundPassthroughClusterIpv4', 'PassthroughCluster', 'adservice', 'cartservice', 'checkoutservice', 'currencyservice', 'emailservice', 'frontend', 'frontend-external', 'paymentservice', 'productcatalogservice', 'recommendationservice', 'redis', 'shippingservice']
+    metric suffixes: {'cpu': 11, 'mem': 11, 'diskio': 6, 'socket': 11, 'workload': 13, 'error': 2, 'latency-50': 10, 'latency-90': 10}
+    normal-window cpu: n=7920 min=0.134 p50=0.9024 p95=31.19 max=34.05
+    normal-window mem: n=7920 min=2.978e+06 p50=3.424e+07 p95=1.064e+08 max=1.075e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=110067
+    log container names: ['adservice', 'cartservice', 'checkoutservice', 'currencyservice', 'emailservice', 'frontend', 'paymentservice', 'recommendationservice', 'redis', 'shippingservice']
+    normal-window log levels: {'info': 37315, 'debug': 29833, 'INFO': 12654}
+    log ts range vs inject (s): -720 .. 172
+    traces columns: ['time', 'traceID', 'spanID', 'serviceName', 'methodName', 'operationName', 'startTimeMillis', 'startTime', 'duration', 'statusCode', 'parentSpanID', 'ts'] rows=199960
+    normal-window statusCode: {'0.0': 180244, nan: 8870}
+    trace service names: ['checkoutservice', 'currencyservice', 'emailservice', 'frontendservice', 'paymentservice', 'productcatalogservice', 'recommendationservice']
+    normal-window span duration (raw unit) p50=2231.0 p99=100277.08999999997
+  case re2ob_checkoutservice_cpu_3: services=12 metric_cols=74 median_step_s=1.0
+    services: ['adservice', 'cartservice', 'checkoutservice', 'currencyservice', 'emailservice', 'frontend', 'frontend-external', 'paymentservice', 'productcatalogservice', 'recommendationservice', 'redis', 'shippingservice']
+    metric suffixes: {'cpu': 11, 'mem': 11, 'diskio': 7, 'socket': 11, 'workload': 11, 'error': 3, 'latency-50': 10, 'latency-90': 10}
+    normal-window cpu: n=7920 min=0.1617 p50=0.7212 p95=30.82 max=33.12
+    normal-window mem: n=7920 min=3.006e+06 p50=4.07e+07 p95=1.125e+08 max=1.128e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=178461
+    log container names: ['adservice', 'cartservice', 'checkoutservice', 'currencyservice', 'emailservice', 'frontend', 'paymentservice', 'recommendationservice', 'redis', 'shippingservice']
+    normal-window log levels: {'info': 36779, 'debug': 29566, 'INFO': 12433}
+    log ts range vs inject (s): -720 .. 720
+    traces columns: ['time', 'traceID', 'spanID', 'serviceName', 'methodName', 'operationName', 'startTimeMillis', 'startTime', 'duration', 'statusCode', 'parentSpanID', 'ts'] rows=408211
+    normal-window statusCode: {'0.0': 193103, nan: 9555}
+    trace service names: ['checkoutservice', 'currencyservice', 'emailservice', 'frontendservice', 'paymentservice', 'productcatalogservice', 'recommendationservice']
+    normal-window span duration (raw unit) p50=2316.0 p99=95985.0399999998
+  metric rows before injection (first cases): [720, 720, 720]; after: [721, 210, 721]
+
+=== system ss: 90 cases
+  files in first case: ['cluster_info.json', 'inject_time.txt', 'logs.csv', 'logts.csv', 'metrics.csv', 'metrics_postprocess.log', 'pod-node-1.csv', 'pod-node-2.csv', 'simple_metrics.csv']
+  case re2ss_carts_cpu_1: services=15 metric_cols=75 median_step_s=1.0
+    services: ['carts', 'carts-db', 'catalogue', 'catalogue-db', 'front-end', 'orders', 'orders-db', 'payment', 'queue-master', 'rabbitmq', 'rabbitmq-exporter', 'session-db', 'shipping', 'user', 'user-db']
+    metric suffixes: {'cpu': 15, 'mem': 15, 'diskio': 7, 'socket': 15, 'workload': 7, 'error': 2, 'latency-50': 7, 'latency-90': 7}
+    normal-window cpu: n=10800 min=0 p50=0.4793 p95=3.984 max=4.675
+    normal-window mem: n=10800 min=2.867e+06 p50=7.945e+07 p95=4.307e+08 max=4.307e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=86592
+    log container names: ['carts', 'carts-db', 'catalogue', 'front-end', 'orders', 'orders-db', 'payment', 'queue-master', 'session-db', 'shipping', 'user']
+    normal-window log levels: {}
+    log ts range vs inject (s): -720 .. 720
+    traces: none
+  case re2ss_carts_cpu_2: services=15 metric_cols=78 median_step_s=1.0
+    services: ['carts', 'carts-db', 'catalogue', 'catalogue-db', 'front-end', 'orders', 'orders-db', 'payment', 'queue-master', 'rabbitmq', 'rabbitmq-exporter', 'session-db', 'shipping', 'user', 'user-db']
+    metric suffixes: {'cpu': 15, 'mem': 15, 'diskio': 8, 'socket': 15, 'workload': 7, 'error': 4, 'latency-50': 7, 'latency-90': 7}
+    normal-window cpu: n=10800 min=0 p50=0.5941 p95=4.461 max=5.135
+    normal-window mem: n=10800 min=2.859e+06 p50=8.032e+07 p95=4.306e+08 max=4.308e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=86451
+    log container names: ['carts', 'carts-db', 'catalogue', 'front-end', 'orders', 'orders-db', 'payment', 'queue-master', 'session-db', 'shipping', 'user']
+    normal-window log levels: {}
+    log ts range vs inject (s): -720 .. 720
+    traces: none
+  case re2ss_carts_cpu_3: services=15 metric_cols=78 median_step_s=1.0
+    services: ['carts', 'carts-db', 'catalogue', 'catalogue-db', 'front-end', 'orders', 'orders-db', 'payment', 'queue-master', 'rabbitmq', 'rabbitmq-exporter', 'session-db', 'shipping', 'user', 'user-db']
+    metric suffixes: {'cpu': 15, 'mem': 15, 'diskio': 8, 'socket': 15, 'workload': 7, 'error': 4, 'latency-50': 7, 'latency-90': 7}
+    normal-window cpu: n=10800 min=0 p50=0.4026 p95=4.684 max=8.304
+    normal-window mem: n=10800 min=2.863e+06 p50=8.609e+07 p95=4.306e+08 max=4.306e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=87020
+    log container names: ['carts', 'carts-db', 'catalogue', 'front-end', 'orders', 'payment', 'queue-master', 'session-db', 'shipping', 'user']
+    normal-window log levels: {}
+    log ts range vs inject (s): -719 .. 720
+    traces: none
+  metric rows before injection (first cases): [720, 720, 720]; after: [721, 721, 721]
+
+=== system tt: 90 cases
+  files in first case: ['cluster_info.json', 'inject_time.txt', 'logs.csv', 'logts.csv', 'metrics.csv', 'metrics_postprocess.log', 'pod-node-1.csv', 'pod-node-2.csv', 'simple_metrics.csv', 'traces.csv', 'tracets_err.csv', 'tracets_lat.csv']
+  case re2tt_ts-auth-service_cpu_1: services=68 metric_cols=369 median_step_s=1.0
+    services: ['ts-admin-basic-info-service', 'ts-admin-order-service', 'ts-admin-route-service', 'ts-admin-travel-service', 'ts-admin-user-service', 'ts-assurance-mongo', 'ts-assurance-service', 'ts-auth-mongo', 'ts-auth-service', 'ts-avatar-service', 'ts-basic-service', 'ts-cancel-service', 'ts-config-mongo', 'ts-config-service', 'ts-consign-mongo', 'ts-consign-price-mongo', 'ts-consign-price-service', 'ts-consign-service', 'ts-contacts-mongo', 'ts-contacts-service', 'ts-execute-service', 'ts-food-map-mongo', 'ts-food-map-service', 'ts-food-mongo', 'ts-food-mysql', 'ts-food-service', 'ts-inside-payment-mongo', 'ts-inside-payment-service', 'ts-news-service', 'ts-notification-mongo', 'ts-notification-service', 'ts-order-mongo', 'ts-order-other-mongo', 'ts-order-other-service', 'ts-order-service', 'ts-payment-mongo', 'ts-payment-service', 'ts-preserve-mongo', 'ts-preserve-other-mongo', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-mongo', 'ts-price-service', 'ts-rebook-service', 'ts-route-mongo', 'ts-route-plan-service', 'ts-route-service', 'ts-seat-service', 'ts-security-mongo', 'ts-security-service', 'ts-station-mongo', 'ts-station-service', 'ts-ticket-office-mongo', 'ts-ticket-office-service', 'ts-ticketinfo-service', 'ts-train-mongo', 'ts-train-service', 'ts-travel-mongo', 'ts-travel-plan-service', 'ts-travel-service', 'ts-travel2-mongo', 'ts-travel2-service', 'ts-ui-dashboard', 'ts-user-mongo', 'ts-user-service', 'ts-verification-code-service', 'ts-voucher-mysql', 'ts-voucher-service']
+    metric suffixes: {'cpu': 68, 'mem': 68, 'diskio': 67, 'socket': 68, 'workload': 28, 'error': 14, 'latency-50': 28, 'latency-90': 28}
+    normal-window cpu: n=48960 min=0.00141 p50=0.491 p95=5.469 max=16.49
+    normal-window mem: n=48960 min=2.523e+06 p50=1.925e+08 p95=2.88e+08 max=6.005e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=279630
+    log container names: ['ts-admin-basic-info-service', 'ts-admin-travel-service', 'ts-assurance-mongo', 'ts-assurance-service', 'ts-auth-mongo', 'ts-auth-service', 'ts-basic-service', 'ts-config-mongo', 'ts-consign-mongo', 'ts-consign-price-mongo', 'ts-consign-service', 'ts-contacts-mongo', 'ts-contacts-service', 'ts-food-map-mongo', 'ts-food-map-service', 'ts-food-mongo', 'ts-food-service', 'ts-inside-payment-mongo', 'ts-inside-payment-service', 'ts-notification-mongo', 'ts-order-mongo', 'ts-order-other-mongo', 'ts-order-other-service', 'ts-order-service', 'ts-payment-mongo', 'ts-preserve-mongo', 'ts-preserve-other-mongo', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-mongo', 'ts-price-service', 'ts-route-mongo', 'ts-route-service', 'ts-seat-service', 'ts-security-mongo', 'ts-security-service', 'ts-station-mongo', 'ts-ticket-office-mongo', 'ts-train-mongo', 'ts-travel-mongo']
+    normal-window log levels: {}
+    log ts range vs inject (s): -720 .. 720
+    traces columns: ['time', 'traceID', 'spanID', 'serviceName', 'methodName', 'operationName', 'startTimeMillis', 'startTime', 'duration', 'statusCode', 'parentSpanID', 'ts'] rows=1143435
+    normal-window statusCode: {nan: 574479}
+    trace service names: ['ts-admin-basic-info-service', 'ts-admin-travel-service', 'ts-assurance-service', 'ts-auth-service', 'ts-basic-service', 'ts-config-service', 'ts-consign-price-service', 'ts-consign-service', 'ts-contacts-service', 'ts-food-map-service', 'ts-food-service', 'ts-inside-payment-service', 'ts-order-other-service', 'ts-order-service', 'ts-payment-service', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-service', 'ts-route-service', 'ts-seat-service', 'ts-security-service', 'ts-station-service', 'ts-ticketinfo-service', 'ts-train-service', 'ts-travel-service', 'ts-travel2-service', 'ts-user-service']
+    normal-window span duration (raw unit) p50=1171.0 p99=56188.87999999989
+  case re2tt_ts-auth-service_cpu_2: services=68 metric_cols=367 median_step_s=1.0
+    services: ['ts-admin-basic-info-service', 'ts-admin-order-service', 'ts-admin-route-service', 'ts-admin-travel-service', 'ts-admin-user-service', 'ts-assurance-mongo', 'ts-assurance-service', 'ts-auth-mongo', 'ts-auth-service', 'ts-avatar-service', 'ts-basic-service', 'ts-cancel-service', 'ts-config-mongo', 'ts-config-service', 'ts-consign-mongo', 'ts-consign-price-mongo', 'ts-consign-price-service', 'ts-consign-service', 'ts-contacts-mongo', 'ts-contacts-service', 'ts-execute-service', 'ts-food-map-mongo', 'ts-food-map-service', 'ts-food-mongo', 'ts-food-mysql', 'ts-food-service', 'ts-inside-payment-mongo', 'ts-inside-payment-service', 'ts-news-service', 'ts-notification-mongo', 'ts-notification-service', 'ts-order-mongo', 'ts-order-other-mongo', 'ts-order-other-service', 'ts-order-service', 'ts-payment-mongo', 'ts-payment-service', 'ts-preserve-mongo', 'ts-preserve-other-mongo', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-mongo', 'ts-price-service', 'ts-rebook-service', 'ts-route-mongo', 'ts-route-plan-service', 'ts-route-service', 'ts-seat-service', 'ts-security-mongo', 'ts-security-service', 'ts-station-mongo', 'ts-station-service', 'ts-ticket-office-mongo', 'ts-ticket-office-service', 'ts-ticketinfo-service', 'ts-train-mongo', 'ts-train-service', 'ts-travel-mongo', 'ts-travel-plan-service', 'ts-travel-service', 'ts-travel2-mongo', 'ts-travel2-service', 'ts-ui-dashboard', 'ts-user-mongo', 'ts-user-service', 'ts-verification-code-service', 'ts-voucher-mysql', 'ts-voucher-service']
+    metric suffixes: {'cpu': 68, 'mem': 68, 'diskio': 67, 'socket': 68, 'workload': 28, 'error': 12, 'latency-50': 28, 'latency-90': 28}
+    normal-window cpu: n=48960 min=0.001165 p50=0.4647 p95=4.948 max=17.43
+    normal-window mem: n=48960 min=2.044e+06 p50=1.93e+08 p95=2.724e+08 max=5.999e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=271919
+    log container names: ['ts-admin-basic-info-service', 'ts-admin-travel-service', 'ts-assurance-mongo', 'ts-assurance-service', 'ts-auth-mongo', 'ts-auth-service', 'ts-basic-service', 'ts-config-mongo', 'ts-consign-mongo', 'ts-consign-price-mongo', 'ts-consign-service', 'ts-contacts-mongo', 'ts-contacts-service', 'ts-food-map-mongo', 'ts-food-map-service', 'ts-food-mongo', 'ts-food-service', 'ts-inside-payment-mongo', 'ts-inside-payment-service', 'ts-notification-mongo', 'ts-order-mongo', 'ts-order-other-mongo', 'ts-order-other-service', 'ts-order-service', 'ts-payment-mongo', 'ts-preserve-mongo', 'ts-preserve-other-mongo', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-mongo', 'ts-price-service', 'ts-route-mongo', 'ts-route-service', 'ts-seat-service', 'ts-security-mongo', 'ts-security-service', 'ts-station-mongo', 'ts-station-service', 'ts-ticket-office-mongo', 'ts-ticketinfo-service']
+    normal-window log levels: {}
+    log ts range vs inject (s): -720 .. 720
+    traces columns: ['time', 'traceID', 'spanID', 'serviceName', 'methodName', 'operationName', 'startTimeMillis', 'startTime', 'duration', 'statusCode', 'parentSpanID', 'ts'] rows=838936
+    normal-window statusCode: {nan: 417133}
+    trace service names: ['ts-admin-basic-info-service', 'ts-admin-travel-service', 'ts-assurance-service', 'ts-auth-service', 'ts-basic-service', 'ts-config-service', 'ts-consign-price-service', 'ts-consign-service', 'ts-contacts-service', 'ts-food-map-service', 'ts-food-service', 'ts-inside-payment-service', 'ts-order-other-service', 'ts-order-service', 'ts-payment-service', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-service', 'ts-route-service', 'ts-seat-service', 'ts-security-service', 'ts-station-service', 'ts-ticketinfo-service', 'ts-train-service', 'ts-travel-service', 'ts-travel2-service', 'ts-user-service']
+    normal-window span duration (raw unit) p50=1350.0 p99=51738.399999999965
+  case re2tt_ts-auth-service_cpu_3: services=68 metric_cols=367 median_step_s=1.0
+    services: ['ts-admin-basic-info-service', 'ts-admin-order-service', 'ts-admin-route-service', 'ts-admin-travel-service', 'ts-admin-user-service', 'ts-assurance-mongo', 'ts-assurance-service', 'ts-auth-mongo', 'ts-auth-service', 'ts-avatar-service', 'ts-basic-service', 'ts-cancel-service', 'ts-config-mongo', 'ts-config-service', 'ts-consign-mongo', 'ts-consign-price-mongo', 'ts-consign-price-service', 'ts-consign-service', 'ts-contacts-mongo', 'ts-contacts-service', 'ts-execute-service', 'ts-food-map-mongo', 'ts-food-map-service', 'ts-food-mongo', 'ts-food-mysql', 'ts-food-service', 'ts-inside-payment-mongo', 'ts-inside-payment-service', 'ts-news-service', 'ts-notification-mongo', 'ts-notification-service', 'ts-order-mongo', 'ts-order-other-mongo', 'ts-order-other-service', 'ts-order-service', 'ts-payment-mongo', 'ts-payment-service', 'ts-preserve-mongo', 'ts-preserve-other-mongo', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-mongo', 'ts-price-service', 'ts-rebook-service', 'ts-route-mongo', 'ts-route-plan-service', 'ts-route-service', 'ts-seat-service', 'ts-security-mongo', 'ts-security-service', 'ts-station-mongo', 'ts-station-service', 'ts-ticket-office-mongo', 'ts-ticket-office-service', 'ts-ticketinfo-service', 'ts-train-mongo', 'ts-train-service', 'ts-travel-mongo', 'ts-travel-plan-service', 'ts-travel-service', 'ts-travel2-mongo', 'ts-travel2-service', 'ts-ui-dashboard', 'ts-user-mongo', 'ts-user-service', 'ts-verification-code-service', 'ts-voucher-mysql', 'ts-voucher-service']
+    metric suffixes: {'cpu': 68, 'mem': 68, 'diskio': 67, 'socket': 68, 'workload': 28, 'error': 12, 'latency-50': 28, 'latency-90': 28}
+    normal-window cpu: n=48960 min=0.001493 p50=0.4586 p95=4.989 max=17.02
+    normal-window mem: n=48960 min=2.195e+06 p50=1.933e+08 p95=2.748e+08 max=5.999e+08
+    logs columns: ['time', 'timestamp', 'container_name', 'message', 'level', 'req_path', 'error', 'ts'] rows=267932
+    log container names: ['ts-admin-basic-info-service', 'ts-admin-travel-service', 'ts-assurance-mongo', 'ts-assurance-service', 'ts-auth-mongo', 'ts-auth-service', 'ts-basic-service', 'ts-config-mongo', 'ts-consign-mongo', 'ts-consign-price-mongo', 'ts-consign-service', 'ts-contacts-mongo', 'ts-contacts-service', 'ts-food-map-mongo', 'ts-food-map-service', 'ts-food-mongo', 'ts-food-service', 'ts-inside-payment-mongo', 'ts-inside-payment-service', 'ts-notification-mongo', 'ts-order-mongo', 'ts-order-other-mongo', 'ts-order-other-service', 'ts-order-service', 'ts-payment-mongo', 'ts-preserve-mongo', 'ts-preserve-other-mongo', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-mongo', 'ts-price-service', 'ts-route-mongo', 'ts-route-service', 'ts-seat-service', 'ts-security-mongo', 'ts-security-service', 'ts-station-mongo', 'ts-ticket-office-mongo', 'ts-train-mongo', 'ts-travel-mongo']
+    normal-window log levels: {}
+    log ts range vs inject (s): -720 .. 720
+    traces columns: ['time', 'traceID', 'spanID', 'serviceName', 'methodName', 'operationName', 'startTimeMillis', 'startTime', 'duration', 'statusCode', 'parentSpanID', 'ts'] rows=898363
+    normal-window statusCode: {nan: 442385}
+    trace service names: ['ts-admin-basic-info-service', 'ts-admin-travel-service', 'ts-assurance-service', 'ts-auth-service', 'ts-basic-service', 'ts-config-service', 'ts-consign-price-service', 'ts-consign-service', 'ts-contacts-service', 'ts-food-map-service', 'ts-food-service', 'ts-inside-payment-service', 'ts-order-other-service', 'ts-order-service', 'ts-payment-service', 'ts-preserve-other-service', 'ts-preserve-service', 'ts-price-service', 'ts-route-service', 'ts-seat-service', 'ts-security-service', 'ts-station-service', 'ts-ticketinfo-service', 'ts-train-service', 'ts-travel-service', 'ts-travel2-service', 'ts-user-service']
+    normal-window span duration (raw unit) p50=1256.0 p99=51385.47999999992
+  metric rows before injection (first cases): [720, 720, 720]; after: [721, 721, 721]
+
+=== unit checks
+  metric step: [1.0]  -> rule: must be 1.0 s
+  CPU per-service normal medians: n=282 p50=0.4775 p95=5.283 share>1.0=0.26 max value=34.05
+  CPU rule suggests: percent of one core -> CPU_TO_CORES = 0.01
+  memory normal median=8.032e+07 -> bytes (as assumed)
+  span duration median=1790 -> microseconds (as assumed)

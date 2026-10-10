@@ -1,0 +1,15 @@
+re1ob_cartservice_cpu_1
+re1ob_cartservice_delay_1
+re1ob_adservice_disk_1
+re1ob_adservice_loss_1
+re1ob_checkoutservice_mem_1
+re1ss_payment_cpu_1
+re1ss_orders_delay_1
+re1ss_carts_disk_1
+re1ss_catalogue_loss_1
+re1ss_orders_mem_1
+re1tt_ts-auth-service_cpu_1
+re1tt_ts-travel-service_delay_1
+re1tt_ts-order-service_disk_1
+re1tt_ts-auth-service_loss_1
+re1tt_ts-train-service_mem_1
