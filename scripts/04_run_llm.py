@@ -35,10 +35,24 @@ def load(path):
         return [json.loads(l) for l in f if l.strip()]
 
 
-def messages_for(rec, condition):
+def messages_for(rec, condition, order_seed=1):
     """Return (system, user, back-map, leak count)."""
     ctx = rec["context"]
     services = rec["candidates"]
+    if condition == "shuffled":
+        # exploratory E2: AFFECTED SERVICES order permuted, all else unchanged
+        import random
+        aff = list(ctx.get("affected_services", []))
+        rng = random.Random(f"{C.SEED}|order{order_seed}|{rec['case_id']}")
+        perm = aff[:]
+        rng.shuffle(perm)
+        ctx_s = dict(ctx)
+        ctx_s["affected_services"] = perm
+        lines = rec["summary"]["annotated"].split("\n")
+        lines = [("AFFECTED SERVICES: " + ", ".join(perm)) if l.startswith("AFFECTED SERVICES:") else l
+                 for l in lines]
+        system, user = A.build_messages(ctx_s, "\n".join(lines), services)
+        return system, user, None, None
     if condition == "anon":
         names = sorted(set(services) | set(rec["detector_services"]))
         apply, back, fwd = X.anonymiser(rec["case_id"], names)
@@ -54,13 +68,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ctx", required=True, help="folder with contexts.jsonl")
     ap.add_argument("--model", required=True, choices=sorted(C.MODELS))
-    ap.add_argument("--condition", required=True, choices=["annotated", "stripped", "decoy", "placebo", "anon"])
+    ap.add_argument("--condition", required=True, choices=["annotated", "stripped", "decoy", "placebo", "anon", "shuffled"])
     ap.add_argument("--votes", type=int, default=C.N_VOTES_MAIN)
     ap.add_argument("--subset", default=None, help="file with one case id per line")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--tag", default="main")
     ap.add_argument("--dry-run", action="store_true", help="print the prompt, call nothing")
     ap.add_argument("--sleep", type=float, default=0.0, help="seconds between calls")
+    ap.add_argument("--order-seed", type=int, default=1, help="shuffled condition only")
     ap.add_argument("--note-only", action="store_true", help="only cases whose context carries a NOTE (rep2 runs)")
     a = ap.parse_args()
 
@@ -88,7 +103,7 @@ def main():
 
     if a.dry_run:
         r = todo[0] if todo else recs[0]
-        s, u, _, leak = messages_for(r, a.condition)
+        s, u, _, leak = messages_for(r, a.condition, a.order_seed)
         if leak is not None:
             print(f"[anon] original names left in prompt: {leak}")
         print("=" * 30, "SYSTEM\n", s, "\n", "=" * 30, "USER\n", u)
@@ -97,7 +112,7 @@ def main():
     call = A.GroqCaller(C.MODELS[a.model])
     with open(out, "a", encoding="utf-8") as fo:
         for i, r in enumerate(todo, 1):
-            system, user, back, leak = messages_for(r, a.condition)
+            system, user, back, leak = messages_for(r, a.condition, a.order_seed)
             votes, error = [], None
             try:
                 for v in range(a.votes):

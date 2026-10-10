@@ -266,7 +266,12 @@ def _errors(lines):
     return err, warn
 
 
-def log_detector(ldf, services, inject_time):
+def log_detector(ldf, services, inject_time, chronic_filter=False):
+    """chronic_filter=False is the frozen, deployed behaviour. True is the
+    exploratory baseline-aware variant (PROTOCOL_V3_AMENDMENT_1.md, E3): an
+    error-count alarm needs more than twice the errors of the same-length
+    window just before injection, and a dependency hint is dropped if it
+    already appeared in that window."""
     t_cycle = inject_time + C.CYCLE_OFFSET_S
     results, anomalies = [], []
     if ldf is None or ldf.empty or "container_name" not in ldf.columns:
@@ -288,6 +293,15 @@ def log_detector(ldf, services, inject_time):
         err, _ = _errors(lines)
         seen.update(_patterns(miner, lines, err))
 
+    base_err, base_hints = {}, {}
+    if chronic_filter:
+        for svc in services:
+            bl = _service_logs(ldf, svc, inject_time - C.LOG_LOOKBACK_S, inject_time)
+            be, _ = _errors(bl)
+            base_err[svc] = len(be)
+            base_hints[svc] = {dep for l in be for dep, kws in C.DEPENDENCY_KEYWORDS.items()
+                               if any(k in l.lower() for k in kws)}
+
     for svc in services:
         lines = _service_logs(ldf, svc, t_cycle - C.LOG_LOOKBACK_S, t_cycle)
         err, warn = _errors(lines)
@@ -297,9 +311,12 @@ def log_detector(ldf, services, inject_time):
             for dep, kws in C.DEPENDENCY_KEYWORDS.items():
                 if any(k in low for k in kws):
                     hints.add(dep)
+        if chronic_filter:
+            hints -= base_hints.get(svc, set())
         patterns = _patterns(miner, lines, err)
         reasons, new = [], []
-        if len(err) > C.LOG_ERROR_THRESHOLD:
+        chronic_ok = (not chronic_filter) or len(err) > 2 * base_err.get(svc, 0)
+        if len(err) > C.LOG_ERROR_THRESHOLD and chronic_ok:
             reasons.append(f"High error count: {len(err)} errors in last 5 minutes")
         if hints:
             reasons.append(f"Error logs mention possible failed dependency: {', '.join(sorted(hints))}")

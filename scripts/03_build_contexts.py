@@ -35,7 +35,7 @@ from rcastudy import data as D  # noqa: E402
 from rcastudy import detectors as T  # noqa: E402
 
 
-def process(case):
+def process(case, chronic_filter=False):
     mdf = D.load_metrics(case)
     ldf = D.load_logs(case)
     tdf = D.load_traces(case)
@@ -51,7 +51,7 @@ def process(case):
         warnings.append(f"root {root} not among candidates")
     metric_res = T.metric_detector(mdf, det_services, case.inject_time)
     trace_res = T.trace_detector(tdf, det_services, case.inject_time)
-    log_res = T.log_detector(ldf, det_services, case.inject_time)
+    log_res = T.log_detector(ldf, det_services, case.inject_time, chronic_filter=chronic_filter)
     cycle_ts = case.inject_time + C.CYCLE_OFFSET_S
     ctx = X.build(metric_res, trace_res, log_res, cycle_ts)
     flagged = ctx["severity"] != "NORMAL"
@@ -115,6 +115,8 @@ def main():
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--only", default=None, help="comma-separated case ids")
     ap.add_argument("--subset", default=None, help="file with one case id per line")
+    ap.add_argument("--chronic-filter", action="store_true",
+                    help="exploratory E3: baseline-aware log alarms (write to a separate --out)")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     cases = D.discover(a.root, a.suite)
@@ -134,7 +136,7 @@ def main():
         for i, c in enumerate(cases, 1):
             t0 = time.time()
             try:
-                rec, vis, allr, rk = process(c)
+                rec, vis, allr, rk = process(c, chronic_filter=a.chronic_filter)
             except Exception:  # noqa: BLE001
                 flog.write(f"FAIL {c.case_id}\n{traceback.format_exc()}\n")
                 print(f"[{i}/{len(cases)}] FAIL {c.case_id} (kept as a stub, scored as chance)")

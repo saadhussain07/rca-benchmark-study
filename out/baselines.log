@@ -1,0 +1,105 @@
+=== nsigma__re2-ob  2026-10-10 13:00:48
+Lift@5-DISK: 0.73
+Avg@5-SOCKET: 0.87
+Chance@5-SOCKET: 0.25
+Lift@5-SOCKET: 0.62
+Avg@5-DELAY: 0.89
+Chance@5-DELAY: 0.25
+Lift@5-DELAY: 0.64
+Avg@5-LOSS:  0.91
+Chance@5-LOSS: 0.25
+Lift@5-LOSS: 0.66
+---
+Avg speed: 0.1
+=== nsigma__re2-ss  2026-10-10 13:01:13
+Lift@5-DISK: 0.67
+Avg@5-SOCKET: 0.93
+Chance@5-SOCKET: 0.27
+Lift@5-SOCKET: 0.66
+Avg@5-DELAY: 0.84
+Chance@5-DELAY: 0.27
+Lift@5-DELAY: 0.57
+Avg@5-LOSS:  0.96
+Chance@5-LOSS: 0.27
+Lift@5-LOSS: 0.69
+---
+Avg speed: 0.1
+=== nsigma__re2-tt  2026-10-10 13:01:28
+Lift@5-DISK: 0.96
+Avg@5-SOCKET: 0.81
+Chance@5-SOCKET: 0.04
+Lift@5-SOCKET: 0.77
+Avg@5-DELAY: 0.55
+Chance@5-DELAY: 0.04
+Lift@5-DELAY: 0.5
+Avg@5-LOSS:  0.71
+Chance@5-LOSS: 0.04
+Lift@5-LOSS: 0.66
+---
+Avg speed: 0.48
+=== baro__re2-ob  2026-10-10 13:02:18
+Lift@5-DISK: 0.56
+Avg@5-SOCKET: 0.67
+Chance@5-SOCKET: 0.25
+Lift@5-SOCKET: 0.42
+Avg@5-DELAY: 0.67
+Chance@5-DELAY: 0.25
+Lift@5-DELAY: 0.42
+Avg@5-LOSS:  0.8
+Chance@5-LOSS: 0.25
+Lift@5-LOSS: 0.55
+---
+Avg speed: 0.09
+=== baro__re2-ss  2026-10-10 13:02:32
+Lift@5-DISK: 0.5
+Avg@5-SOCKET: 0.71
+Chance@5-SOCKET: 0.27
+Lift@5-SOCKET: 0.43
+Avg@5-DELAY: 0.68
+Chance@5-DELAY: 0.27
+Lift@5-DELAY: 0.41
+Avg@5-LOSS:  0.8
+Chance@5-LOSS: 0.27
+Lift@5-LOSS: 0.53
+---
+Avg speed: 0.11
+=== baro__re2-tt  2026-10-10 13:02:48
+Lift@5-DISK: 0.96
+Avg@5-SOCKET: 0.83
+Chance@5-SOCKET: 0.04
+Lift@5-SOCKET: 0.78
+Avg@5-DELAY: 0.63
+Chance@5-DELAY: 0.04
+Lift@5-DELAY: 0.58
+Avg@5-LOSS:  0.64
+Chance@5-LOSS: 0.04
+Lift@5-LOSS: 0.6
+---
+Avg speed: 0.59
+=== circa__re2-ob  2026-10-10 13:03:47
+Lift@5-DISK: 0.61
+Avg@5-SOCKET: 0.85
+Chance@5-SOCKET: 0.25
+Lift@5-SOCKET: 0.6
+Avg@5-DELAY: 0.71
+Chance@5-DELAY: 0.25
+Lift@5-DELAY: 0.46
+Avg@5-LOSS:  0.85
+Chance@5-LOSS: 0.25
+Lift@5-LOSS: 0.6
+---
+Avg speed: 24.47
+=== circa__re2-ss  2026-10-10 13:40:35
+Lift@5-DISK: 0.61
+Avg@5-SOCKET: 0.95
+Chance@5-SOCKET: 0.27
+Lift@5-SOCKET: 0.67
+Avg@5-DELAY: 0.83
+Chance@5-DELAY: 0.27
+Lift@5-DELAY: 0.55
+Avg@5-LOSS:  0.88
+Chance@5-LOSS: 0.27
+Lift@5-LOSS: 0.61
+---
+Avg speed: 33.86
+=== circa__re2-tt  2026-10-10 14:31:28

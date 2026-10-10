@@ -18,3 +18,10 @@ RE2 may appear here only with `01_inspect.py`, `00_manifest.py` or
 | 2026-10-10 | Saad (EC2) | name-matching check on pilot responses | RE1, RE3 | no model name failed to match a candidate; the model sometimes lists one service, repeats one, or pads the list with empty values. All are handled by the existing ranking rule (chance fill); no code change. |
 | 2026-10-10 | Saad + Claude | decided: Groq paid Developer tier with a USD 15 monthly spend cap (free tier allows ~65 calls/model/day); runner stops cleanly on `blocked_api_access`; added `--note-only` for rep2 runs and `scripts/run_llm_model.sh` | — | no data seen |
 | 2026-10-10 11:34 UTC | Saad | first freeze tag protocol-v3-frozen (c4bc12c) lacked the final upload (section 5.7, run_llm_model.sh, --note-only, spend-limit stop); complete freeze tagged protocol-v3-frozen-2. No RE2 anomalous-window data processed in between. | — | |
+
+## Post-freeze record
+
+| Date (PKT) | Who | What | Notes |
+|---|---|---|---|
+| 2026-10-10 | Saad (EC2) | RE2 contexts built (270, 0 failures), classifiers, all pre-registered model runs (2,980 calls), `06_evaluate.py` | results seen 19:18 PKT |
+| 2026-10-10 | Claude | independent analysis review; PROTOCOL_V3_AMENDMENT_1.md written; scripts 09, 10, run_exploratory.sh; default behaviour verified unchanged | before any exploratory run |
