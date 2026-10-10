@@ -61,12 +61,15 @@ def main():
     ap.add_argument("--tag", default="main")
     ap.add_argument("--dry-run", action="store_true", help="print the prompt, call nothing")
     ap.add_argument("--sleep", type=float, default=0.0, help="seconds between calls")
+    ap.add_argument("--note-only", action="store_true", help="only cases whose context carries a NOTE (rep2 runs)")
     a = ap.parse_args()
 
     recs = [r for r in load(os.path.join(a.ctx, "contexts.jsonl")) if r["flagged"]]
     if a.subset:
         keep = {l.strip() for l in open(a.subset) if l.strip()}
         recs = [r for r in recs if r["case_id"] in keep]
+    if a.note_only:
+        recs = [r for r in recs if r["n_notes"] > 0]
     if a.limit:
         recs = recs[: a.limit]
 

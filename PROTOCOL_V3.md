@@ -254,6 +254,17 @@ et al. publish (OB 0.47, SS 0.24, TT 0.80). We do not tune it to match them.
 Runs are resumable. A daily-quota stop pauses a run and does not change
 anything else.
 
+### 5.7 Execution environment
+
+| Item | Setting |
+|---|---|
+| Machine | AWS EC2 `t3.xlarge` (4 vCPU, 16 GB), Ubuntu 24.04, Python 3.12 |
+| Packages | RCAEval pinned to commit `259ea41`; full package list recorded in `out/environment.txt` at the freeze |
+| Model access | Groq API, paid Developer tier, monthly spend cap USD 15 |
+| Spend-cap stop | treated like a daily-quota stop: the run pauses and resumes; nothing else changes |
+| Run order | each model's runs follow `scripts/run_llm_model.sh`; the three models run in parallel |
+| Logging | the date of every call is logged |
+
 ## 6. Comparators
 
 **The pipeline without the model:**

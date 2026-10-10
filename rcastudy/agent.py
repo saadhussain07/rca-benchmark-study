@@ -192,6 +192,8 @@ class GroqCaller:
                 msg = str(e)
                 if "rate_limit_exceeded" in msg and ("per day" in msg or "TPD" in msg or "RPD" in msg):
                     raise QuotaExhausted(msg)
+                if "blocked_api_access" in msg:  # paid-tier monthly spend limit reached
+                    raise QuotaExhausted(msg)
                 if "Error code: 413" in msg or "too large" in msg.lower() or "context_length_exceeded" in msg:
                     raise RequestTooLarge(msg)  # retrying cannot help
                 if "rate_limit" in msg or "429" in msg or "503" in msg or "timeout" in msg.lower():
