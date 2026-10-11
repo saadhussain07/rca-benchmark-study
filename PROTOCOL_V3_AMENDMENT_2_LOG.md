@@ -53,15 +53,20 @@ Both "before" hashes match a clean checkout of RCAEval at the pinned commit `259
 
 ## 5. Rerun outcome
 
-*(Filled in after `run_rcaeval_a2.sh` finishes. Taken from `out/run_rcaeval_a2.log` and `output/kept/*/STATUS`.)*
+From `out/run_rcaeval_a2.log` (UTC). The reruns started 2026-10-11 03:08:29 and finished 08:08:46. "Ranked" counts result files; "failed" counts `*_failed.json` files written under P1. Cases that were neither ranked nor failed were not reached before the 2-hour limit. All unranked cases are scored as chance.
 
-| Method | System | First run | Rerun: exit | Ranked cases | Failed cases | Not reached (timeout) |
+| Method | System | First run | Rerun exit | Ranked | Failed | Not reached |
 |---|---|---|---|---|---|---|
-| e_diagnosis | ob | exit=1, 0 ranked | | | | |
-| e_diagnosis | ss | exit=1, 0 ranked | | | | |
-| e_diagnosis | tt | exit=1, 0 ranked | | | | |
-| microcause | ob | exit=1, 0 ranked | | | | |
-| microcause | ss | exit=1, 0 ranked | | | | |
-| microcause | tt | exit=124, 0 ranked | not rerun | | | |
-| mmbaro | tt | exit=1, 69 ranked | | | | |
-| mmnsigma | tt | exit=1, 69 ranked | | | | |
+| e_diagnosis | ob | exit=1, 0 ranked | 0 | 90 | 0 | 0 |
+| e_diagnosis | ss | exit=1, 0 ranked | 0 | 90 | 0 | 0 |
+| e_diagnosis | tt | exit=1, 0 ranked | 0 | 90 | 0 | 0 |
+| microcause | ob | exit=1, 0 ranked | 124 (2-h limit) | 27 | 0 | 63 |
+| microcause | ss | exit=1, 0 ranked | 124 (2-h limit) | 21 | 0 | 69 |
+| microcause | tt | exit=124, 0 ranked | not rerun | 0 | 0 | 90 |
+| mmbaro | tt | exit=1, 69 ranked | 0 | 89 | 1 | 0 |
+| mmnsigma | tt | exit=1, 69 ranked | 0 | 89 | 1 | 0 |
+
+**Effect of each patch:**
+- **P1:** the one Train Ticket case that stopped `mmbaro` and `mmnsigma` in the first run was recorded as failed, and the remaining 20 cases ran.
+- **P2 and P3:** MicroCause produced rankings on RE2 for the first time. It remains too slow to finish a system within the limit.
+- **MicroCause caveat:** RCAEval's harness passes it the root service's own latency as its SLI when that column exists (Amendment 3, section D), so its rankings are not label-free.

@@ -117,6 +117,9 @@ def main():
     ap.add_argument("--subset", default=None, help="file with one case id per line")
     ap.add_argument("--chronic-filter", action="store_true",
                     help="exploratory E3: baseline-aware log alarms (write to a separate --out)")
+    ap.add_argument("--onset-shift", type=int, default=0,
+                    help="Amendment 4 (exploratory): seconds added to the injection time every "
+                         "window is placed from (write to a separate --out); ground truth unchanged")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     cases = D.discover(a.root, a.suite)
@@ -128,7 +131,10 @@ def main():
         cases = [c for c in cases if c.case_id in keep]
     if a.limit:
         cases = cases[: a.limit]
-    print(f"{len(cases)} cases")
+    if a.onset_shift:
+        for c in cases:
+            c.inject_time += a.onset_shift
+    print(f"{len(cases)} cases" + (f", onset shifted by {a.onset_shift:+d} s" if a.onset_shift else ""))
     vis_rows, all_rows = [], []
     ranks = {"detector_count": {}, "first_affected": {}, "largest_anomaly": {}, "simplerca": {}}
     with open(os.path.join(a.out, "contexts.jsonl"), "w", encoding="utf-8") as fo, \
