@@ -53,6 +53,14 @@ def messages_for(rec, condition, order_seed=1):
                  for l in lines]
         system, user = A.build_messages(ctx_s, "\n".join(lines), services)
         return system, user, None, None
+    if condition == "anon_full":
+        # Amendment 3 (exploratory C): every form of every name, raw text included
+        names = sorted(set(services) | set(rec["detector_services"]))
+        apply, back, fwd = X.anonymiser_full(rec["case_id"], names)
+        ctx_a = X.anonymise_obj(ctx, apply)
+        summary = apply(rec["summary"]["annotated"])
+        system, user = A.build_messages(ctx_a, summary, sorted(fwd[s] for s in services))
+        return system, user, back, X.leak_count_full(system + "\n" + user, fwd)
     if condition == "anon":
         names = sorted(set(services) | set(rec["detector_services"]))
         apply, back, fwd = X.anonymiser(rec["case_id"], names)
@@ -68,7 +76,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ctx", required=True, help="folder with contexts.jsonl")
     ap.add_argument("--model", required=True, choices=sorted(C.MODELS))
-    ap.add_argument("--condition", required=True, choices=["annotated", "stripped", "decoy", "placebo", "anon", "shuffled"])
+    ap.add_argument("--condition", required=True, choices=["annotated", "stripped", "decoy", "placebo", "anon", "shuffled", "anon_full"])
     ap.add_argument("--votes", type=int, default=C.N_VOTES_MAIN)
     ap.add_argument("--subset", default=None, help="file with one case id per line")
     ap.add_argument("--limit", type=int, default=None)

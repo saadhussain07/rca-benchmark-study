@@ -193,3 +193,66 @@ def leak_count(text, fwd):
     for name in fwd:
         n += len(re.findall(r"(?<![\w-])" + re.escape(name) + r"(?![\w])", text, flags=re.IGNORECASE))
     return n
+
+
+# ======================================================== full anonymising
+# Amendment 3 (exploratory C). Every spelling of every service name is
+# replaced everywhere, raw log text included: the exact name, the name without
+# Train Ticket's "ts-" prefix, and both with hyphens removed or replaced by "_"
+# or a space, case-insensitively. Forms of 10 or more letters are also replaced
+# inside longer identifiers (InsidePaymentServiceImpl); shorter forms only as
+# whole tokens, where "_", ".", "/", "[" and the like count as token edges, so
+# "[carts,,,]" and "catalogue_user" are caught. Benchmark and system names
+# (Sock Shop, Online Boutique / hipstershop, Train Ticket, weave, fudan) become
+# "app". Ordinary words that are not a spelling of a service name ("order",
+# "payment" in Train Ticket logs) are left: they are meaning, not names, and
+# are reported as residual cues.
+SYSTEM_WORDS = r"sock[- ]?shop|socksdb|socks|weave|hipstershop|online[- ]?boutique|boutique|train[- ]?ticket|fudan"
+_SYS_RE = re.compile(r"(?<![A-Za-z0-9])(" + SYSTEM_WORDS + r")(?![A-Za-z0-9])", re.IGNORECASE)
+
+
+def name_forms(name):
+    forms = {name}
+    bases = {name}
+    if name.startswith("ts-") and len(name) > 6:
+        bases.add(name[3:])
+    for b in bases:
+        forms.update({b, b.replace("-", ""), b.replace("-", "_"), b.replace("-", " ")})
+    return {f for f in forms if len(f) >= 3}
+
+
+def _forms_regex(forms):
+    """One alternation, longest form first. Forms of 10+ characters without a
+    space match anywhere; shorter ones only between non-alphanumerics."""
+    alt = "|".join((re.escape(f) if (len(f) >= 10 and " " not in f)
+                    else r"(?<![A-Za-z0-9])" + re.escape(f) + r"(?![A-Za-z0-9])")
+                   for f in sorted(forms, key=len, reverse=True))
+    return re.compile("(?:" + alt + ")", re.IGNORECASE)
+
+
+def anonymiser_full(case_id, services):
+    """Same labels as anonymiser() for the same case; replaces every form of
+    every name in all text. Returns (apply, back, fwd)."""
+    _, back, fwd = anonymiser(case_id, services)
+    form_label = {}
+    for name in sorted(fwd, key=len, reverse=True):
+        for f in name_forms(name):
+            form_label.setdefault(f.lower(), fwd[name])
+    rx = _forms_regex(set(form_label))
+
+    def apply(text):
+        text = rx.sub(lambda m: form_label[m.group(0).lower()], text)
+        return _SYS_RE.sub("app", text)
+
+    apply.raw = apply
+    return apply, back, fwd
+
+
+def leak_count_full(text, fwd):
+    """Occurrences of any form of any service name, or of a system name, left
+    in text (the same matching rules the full anonymiser uses)."""
+    forms = set()
+    for name in fwd:
+        forms |= {f.lower() for f in name_forms(name)}
+    rx = _forms_regex(forms)
+    return len(rx.findall(text)) + len(_SYS_RE.findall(text))

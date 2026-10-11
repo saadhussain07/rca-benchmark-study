@@ -54,8 +54,17 @@ def _parse_name(path):
         suite_sys = RE1_DIRS.get(parent, parent.replace("-", ""))
         if "_" not in sf or not re.match(r"^re[123](ob|ss|tt)$", suite_sys):
             return None
-        service, fault = sf.rsplit("_", 1)
         suite, system = suite_sys[:3], suite_sys[3:5]
+        # Amendment 3: RE3-TT holds a second batch of one service/fault in a
+        # folder named <service>_<fault>_<k> (ts-route-service_f3_1). Its cases
+        # get ids <service>_<fault>_b<k>r<n>, same fault, so they share the
+        # (system, root, fault) cluster. No RE1/RE2 folder has this form.
+        mb = re.match(r"^(.+)_(f\d+)_(\d+)$", sf)
+        if mb:
+            service, fault, batch = mb.groups()
+            return (f"{suite}{system}_{service}_{fault}_b{batch}r{base}", suite, system, service, fault,
+                    int(base))
+        service, fault = sf.rsplit("_", 1)
         return f"{suite}{system}_{service}_{fault}_{base}", suite, system, service, fault, int(base)
     return None
 
