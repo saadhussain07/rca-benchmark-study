@@ -53,6 +53,23 @@ def messages_for(rec, condition, order_seed=1):
                  for l in lines]
         system, user = A.build_messages(ctx_s, "\n".join(lines), services)
         return system, user, None, None
+    if condition == "nolog":
+        # Amendment 6: raw log text removed, log detector output kept
+        summary, ctx_n, _ = X.strip_log_text(rec["summary"]["annotated"], ctx)
+        system, user = A.build_messages(ctx_n, summary, services)
+        return system, user, None, X.log_text_residue(system + "\n" + user, ctx)
+    if condition == "permuted":
+        # Amendment 6: real names deranged among the candidates, everywhere
+        names = sorted(set(services) | set(rec["detector_services"]))
+        apply, inverse, resolve, fwd = X.permuter(rec["case_id"], services, names)
+        ctx_p = X.anonymise_obj(ctx, apply)
+        summary = apply(rec["summary"]["annotated"])
+        system, user = A.build_messages(ctx_p, summary, sorted(fwd[s] for s in services))
+        # skeleton check: with every name removed, the prompt must equal the original
+        s0, u0 = A.build_messages(ctx, rec["summary"]["annotated"], services)
+        bad = int(inverse(user).lower() != inverse(u0).lower()) + int(
+            sorted(inverse(l).lower() for l in system.split("\n")) != sorted(inverse(l).lower() for l in s0.split("\n")))
+        return system, user, resolve, bad
     if condition == "anon_full":
         # Amendment 3 (exploratory C): every form of every name, raw text included
         names = sorted(set(services) | set(rec["detector_services"]))
@@ -76,7 +93,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ctx", required=True, help="folder with contexts.jsonl")
     ap.add_argument("--model", required=True, choices=sorted(C.MODELS))
-    ap.add_argument("--condition", required=True, choices=["annotated", "stripped", "decoy", "placebo", "anon", "shuffled", "anon_full"])
+    ap.add_argument("--condition", required=True, choices=["annotated", "stripped", "decoy", "placebo", "anon", "shuffled", "anon_full",
+                                                       "nolog", "permuted"])
     ap.add_argument("--votes", type=int, default=C.N_VOTES_MAIN)
     ap.add_argument("--subset", default=None, help="file with one case id per line")
     ap.add_argument("--limit", type=int, default=None)
@@ -131,7 +149,11 @@ def main():
                         resp = call(system, user)
                         parsed = A.parse(resp["text"])
                         retried = True
-                    rank, n_listed = A.ranking(parsed, r["candidates"], r["case_id"], back)
+                    if callable(back):  # Amendment 6 permuted: map shown names back first
+                        rank, n_listed = A.ranking(X.resolve_parsed(parsed, back), r["candidates"],
+                                                   r["case_id"], None)
+                    else:
+                        rank, n_listed = A.ranking(parsed, r["candidates"], r["case_id"], back)
                     votes.append({"vote": v + 1, "raw": resp["text"], "parsed": parsed,
                                   "schema_ok": A.schema_ok(parsed), "retried": retried,
                                   "ranking": rank, "n_listed": n_listed,

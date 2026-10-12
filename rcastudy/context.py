@@ -256,3 +256,199 @@ def leak_count_full(text, fwd):
         forms |= {f.lower() for f in name_forms(name)}
     rx = _forms_regex(forms)
     return len(rx.findall(text)) + len(_SYS_RE.findall(text))
+
+
+# ======================================================== Amendment 6
+# Two further text-only conditions (PROTOCOL_V3_AMENDMENT_6.md). Neither
+# changes any earlier condition.
+#
+# nolog: every piece of raw log text is removed (the sample error line and the
+#   mined log templates), while the log detector's output stays: which service
+#   is flagged, its error and log counts, the reason strings without template
+#   text, and the dependency keywords. The detector evidence is unchanged; only
+#   the text a person would read is gone.
+#
+# permuted: the real service names are deranged among the candidate services
+#   (seeded per case) and every spelling of every name is rewritten everywhere,
+#   raw log text included, with the same matching rules as anonymiser_full.
+#   Names keep looking like names, but each now points at a different service.
+#   System names are kept.
+
+_NEWPAT = "New log pattern detected: "
+
+
+def _strip_reasons(reasons):
+    return [("New log pattern detected" if r.startswith(_NEWPAT) else r) for r in reasons]
+
+
+def strip_log_text(summary, ctx):
+    """Return (summary, ctx, n_unmatched). n_unmatched counts LOG ANOMALIES
+    lines that could not be matched exactly and were rewritten by pattern."""
+    import copy
+    lines = summary.split("\n")
+    swap, unmatched = {}, 0
+    for a in ctx.get("anomaly_details", {}).get("log_anomalies", []) or []:
+        old = f"  - {a['service']}: " + "; ".join(a.get("anomaly_reasons", []))
+        new = f"  - {a['service']}: " + "; ".join(_strip_reasons(a.get("anomaly_reasons", [])))
+        swap[old] = new
+    out, in_log = [], False
+    for l in lines:
+        if l.startswith("LOG ANOMALIES:"):
+            in_log = True
+        elif l and not l.startswith(" "):
+            in_log = False
+        if l.lstrip().startswith("Sample error log:"):
+            continue
+        if in_log and l in swap:
+            out.append(swap[l])
+            continue
+        if in_log and _NEWPAT in l:
+            unmatched += 1
+            l = re.sub(r"New log pattern detected: .*?(?=; (?:High error count|Error logs mention|New log pattern)|$)",
+                       "New log pattern detected", l)
+        out.append(l)
+    c = copy.deepcopy(ctx)
+    for l in c.get("full_logs", []) or []:
+        if isinstance(l.get("top_pattern"), dict):
+            l["top_pattern"] = {"count": l["top_pattern"].get("count")}
+        elif l.get("top_pattern") is not None:
+            l["top_pattern"] = None
+        l["sample_error_log"] = None
+    return "\n".join(out), c, unmatched
+
+
+def log_text_items(ctx):
+    """Every raw log string the context carries (sample lines, templates)."""
+    items = set()
+    for l in (ctx.get("full_logs", []) or []):
+        if l.get("sample_error_log"):
+            items.add(l["sample_error_log"])
+        tp = l.get("top_pattern")
+        if isinstance(tp, dict) and tp.get("pattern"):
+            items.add(tp["pattern"])
+    for a in ctx.get("anomaly_details", {}).get("log_anomalies", []) or []:
+        for p in a.get("new_patterns", []) or []:
+            items.add(p)
+        if a.get("sample_error_log"):
+            items.add(a["sample_error_log"])
+    return {s for s in items if isinstance(s, str) and len(s.strip()) >= 8 and s != "OTHER"}
+
+
+def log_text_residue(text, ctx):
+    """How many of the context's raw log strings still occur in text."""
+    return sum(1 for s in log_text_items(ctx) if s in text)
+
+
+def _typed_forms(name):
+    """[(kind, variant, form)] for a lower-case service name."""
+    bases = [("full", name)]
+    if name.startswith("ts-") and len(name) > 6:
+        bases.append(("strip", name[3:]))
+    out = []
+    for kind, b in bases:
+        for var, sep in (("hy", "-"), ("none", ""), ("us", "_"), ("sp", " ")):
+            f = b.replace("-", sep)
+            if len(f) >= 3:
+                out.append((kind, var, f))
+    return out
+
+
+def _render(target, kind, var, matched):
+    base = target[3:] if (kind == "strip" and target.startswith("ts-") and len(target) > 6) else target
+    sep = {"hy": "-", "none": "", "us": "_", "sp": " "}[var]
+    if matched.islower() or not any(ch.isalpha() for ch in matched):
+        return base.replace("-", sep)
+    if matched.isupper():
+        return base.replace("-", sep).upper()
+    return sep.join(p[:1].upper() + p[1:] for p in base.split("-"))
+
+
+def derangement(case_id, items):
+    items = sorted(set(items))
+    if len(items) < 2:
+        return {s: s for s in items}
+    rng = random.Random(f"{C.SEED}|perm|{case_id}")
+    for _ in range(10000):
+        perm = items[:]
+        rng.shuffle(perm)
+        if all(a != b for a, b in zip(items, perm)):
+            return dict(zip(items, perm))
+    perm = items[1:] + items[:1]  # cyclic shift: always a derangement
+    return dict(zip(items, perm))
+
+
+def _rewriter(mapping):
+    """Single-pass rewrite of every typed form of every key name into the
+    same form of its target, case pattern kept."""
+    form_to = {}
+    for src in sorted(mapping, key=len, reverse=True):
+        tgt = mapping[src]
+        for kind, var, f in _typed_forms(src):
+            form_to.setdefault(f.lower(), (tgt, kind, var))
+    rx = _forms_regex(set(form_to))
+
+    def apply(text):
+        def sub(m):
+            tgt, kind, var = form_to[m.group(0).lower()]
+            return _render(tgt, kind, var, m.group(0))
+        return rx.sub(sub, text)
+
+    apply.raw = apply
+    return apply
+
+
+def permuter(case_id, candidates, all_names):
+    """Return (apply, inverse, resolve, fwd).
+    fwd: real candidate -> displayed name. Non-candidate names that extend a
+    candidate (e.g. carts-db) follow it; other names stay. resolve(s) maps a
+    name in a model answer back to the real candidate, or None."""
+    from .data import canonical
+    cand = sorted(set(candidates))
+    fwd = derangement(case_id, cand)
+    full = dict(fwd)
+    for n in sorted(set(all_names) - set(cand)):
+        owner = next((c for c in sorted(cand, key=len, reverse=True) if n.startswith(c + "-")), None)
+        if owner:
+            full[n] = fwd[owner] + n[len(owner):]
+    apply = _rewriter(full)
+    forms = set()
+    for n in set(full) | set(full.values()):
+        forms |= {f.lower() for _, _, f in _typed_forms(n)}
+    rx_all = re.compile("|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True)), re.IGNORECASE)
+
+    def inverse(text):
+        """Skeleton of a text: every spelling of every name removed, anywhere.
+        A correct rewrite leaves the skeleton of the prompt unchanged."""
+        return rx_all.sub("", text)
+    back = {}
+    for real, shown in full.items():
+        tgt = canonical(real)
+        for _, _, f in _typed_forms(shown):
+            back.setdefault(f.lower(), tgt)
+
+    def resolve(s):
+        if not isinstance(s, str):
+            return None
+        k = s.strip().lower()
+        if k in back:
+            return back[k]
+        k2 = canonical(k)
+        return back.get(k2)
+
+    return apply, inverse, resolve, fwd
+
+
+def resolve_parsed(parsed, resolve):
+    """Copy of a parsed answer with every service name mapped back through
+    resolve(); names that resolve to nothing become empty strings, which the
+    ranking rule drops."""
+    if not isinstance(parsed, dict):
+        return parsed
+    out = dict(parsed)
+    for key in ("ranked_root_cause_services", "root_cause_service", "affected_services"):
+        v = parsed.get(key)
+        if isinstance(v, str):
+            out[key] = resolve(v) or ""
+        elif isinstance(v, list):
+            out[key] = [(resolve(x) or "") if isinstance(x, str) else x for x in v]
+    return out
