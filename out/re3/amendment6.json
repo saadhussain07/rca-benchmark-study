@@ -1,0 +1,174 @@
+{
+ "Primary: all 90 RE3 cases (RE2: 270)": {
+  "tests": {
+   "H6a RE3 annotated - nolog": {
+    "n": 90,
+    "a": 54,
+    "b": 32,
+    "diff": 0.24444444444444444,
+    "ci": [
+     0.10748576850094885,
+     0.409104600219058
+    ],
+    "p_perm": 0.0051994800519948,
+    "a_only": 24,
+    "b_only": 2,
+    "p_mcnemar": 1.049041748046875e-05,
+    "p_exact": 0.00390625,
+    "k_nonzero": 11,
+    "p_holm": 0.0155984401559844,
+    "p_holm_exact": 0.01171875
+   },
+   "H6b (annotated - nolog): RE3 minus RE2": {
+    "diff": 0.22962962962962963,
+    "ci": [
+     0.06942708333333333,
+     0.3935511490406067
+    ],
+    "p_perm": 0.0011998800119988001,
+    "p_exact": NaN,
+    "k_nonzero": 117,
+    "n": 360.0,
+    "p_holm": 0.0047995200479952005,
+    "p_holm_exact": 0.0047995200479952005
+   },
+   "H6c-1 RE3 permuted - anon_full": {
+    "n": 90,
+    "a": 36,
+    "b": 35,
+    "diff": 0.011111111111111112,
+    "ci": [
+     -0.06593406593406594,
+     0.07954545454545454
+    ],
+    "p_perm": 1.0,
+    "a_only": 5,
+    "b_only": 4,
+    "p_mcnemar": 1.0,
+    "p_exact": 1.0,
+    "k_nonzero": 5,
+    "p_holm": 1.0,
+    "p_holm_exact": 1.0
+   },
+   "H6c-2 RE3 annotated - permuted": {
+    "n": 90,
+    "a": 54,
+    "b": 36,
+    "diff": 0.2,
+    "ci": [
+     0.056179775280898875,
+     0.3626890756302518
+    ],
+    "p_perm": 0.024697530246975304,
+    "a_only": 21,
+    "b_only": 3,
+    "p_mcnemar": 0.0002771615982055664,
+    "p_exact": 0.0224609375,
+    "k_nonzero": 11,
+    "p_holm": 0.04939506049395061,
+    "p_holm_exact": 0.044921875
+   }
+  },
+  "verdicts": {
+   "H6a": "supported: raw log text raises RE3 accuracy",
+   "H6b": "supported: log text matters more on RE3 than on RE2",
+   "H6c-2": "names that mean the right service help (correct meaning matters)",
+   "H6c-1": "no difference between wrong names and labels detected"
+  }
+ },
+ "Sensitivity: 84 RE3 cases outside the pilot": {
+  "tests": {
+   "H6a RE3 annotated - nolog": {
+    "n": 84,
+    "a": 51,
+    "b": 31,
+    "diff": 0.23809523809523808,
+    "ci": [
+     0.0975609756097561,
+     0.40265151515151487
+    ],
+    "p_perm": 0.006299370062993701,
+    "a_only": 22,
+    "b_only": 2,
+    "p_mcnemar": 3.5881996154785156e-05,
+    "p_exact": 0.005859375,
+    "k_nonzero": 10,
+    "p_holm": 0.018898110188981104,
+    "p_holm_exact": 0.017578125
+   },
+   "H6b (annotated - nolog): RE3 minus RE2": {
+    "diff": 0.22328042328042327,
+    "ci": [
+     0.06396697902722,
+     0.3900718684737672
+    ],
+    "p_perm": 0.0016998300169983002,
+    "p_exact": NaN,
+    "k_nonzero": 117,
+    "n": 354.0,
+    "p_holm": 0.006799320067993201,
+    "p_holm_exact": 0.006799320067993201
+   },
+   "H6c-1 RE3 permuted - anon_full": {
+    "n": 84,
+    "a": 34,
+    "b": 34,
+    "diff": 0.0,
+    "ci": [
+     -0.07407407407407407,
+     0.06097560975609756
+    ],
+    "p_perm": 1.0,
+    "a_only": 4,
+    "b_only": 4,
+    "p_mcnemar": 1.0,
+    "p_exact": 1.0,
+    "k_nonzero": 5,
+    "p_holm": 1.0,
+    "p_holm_exact": 1.0
+   },
+   "H6c-2 RE3 annotated - permuted": {
+    "n": 84,
+    "a": 51,
+    "b": 34,
+    "diff": 0.20238095238095238,
+    "ci": [
+     0.06451612903225806,
+     0.3625
+    ],
+    "p_perm": 0.018198180181981802,
+    "a_only": 19,
+    "b_only": 2,
+    "p_mcnemar": 0.00022125244140625,
+    "p_exact": 0.017578125,
+    "k_nonzero": 11,
+    "p_holm": 0.036396360363963605,
+    "p_holm_exact": 0.03515625
+   }
+  },
+  "verdicts": {
+   "H6a": "supported: raw log text raises RE3 accuracy",
+   "H6b": "supported: log text matters more on RE3 than on RE2",
+   "H6c-2": "names that mean the right service help (correct meaning matters)",
+   "H6c-1": "no difference between wrong names and labels detected"
+  }
+ },
+ "rerun": {
+  "changed": 7,
+  "n": 78,
+  "diff": {
+   "n": 90,
+   "a": 51,
+   "b": 54,
+   "diff": -0.03333333333333333,
+   "ci": [
+    -0.11627906976744186,
+    0.022727272727272728
+   ],
+   "p_perm": 0.7530246975302469,
+   "a_only": 1,
+   "b_only": 4,
+   "p_mcnemar": 0.375
+  }
+ }
+}
