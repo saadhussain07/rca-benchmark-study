@@ -27,9 +27,11 @@ Section 1 restates pre-registered verdicts. Every other section is exploratory a
 | rcaeval:baro | +0.148 [+0.044, +0.256] | +0.147 [+0.032, +0.253] |
 | rcaeval:causalrca | +0.359 [+0.270, +0.452] | +0.392 [+0.297, +0.488] |
 | rcaeval:circa | -0.048 [-0.163, +0.067] | -0.020 [-0.145, +0.112] |
-| rcaeval:mmbaro | +0.174 [+0.070, +0.278] | +0.176 [+0.061, +0.283] |
+| rcaeval:e_diagnosis | +0.378 [+0.281, +0.478] | +0.400 [+0.295, +0.504] |
+| rcaeval:microcause | +0.370 [+0.285, +0.459] | +0.404 [+0.312, +0.496] |
+| rcaeval:mmbaro | +0.133 [+0.030, +0.237] | +0.135 [+0.024, +0.240] |
 | rcaeval:mmcirca | +0.048 [-0.056, +0.156] | +0.073 [-0.043, +0.189] |
-| rcaeval:mmnsigma | -0.322 [-0.415, -0.222] | -0.310 [-0.411, -0.210] |
+| rcaeval:mmnsigma | -0.363 [-0.448, -0.274] | -0.351 [-0.440, -0.260] |
 | rcaeval:nsigma | -0.359 [-0.441, -0.274] | -0.347 [-0.435, -0.260] |
 
 ## 3. Exploratory: position in the AFFECTED SERVICES line

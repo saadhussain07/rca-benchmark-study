@@ -1,0 +1,29 @@
+=== nsigma__re2-ob tdelta=-120 2026-10-12 03:09:52
+    exit=0 results=90
+=== nsigma__re2-ss tdelta=-120 2026-10-12 03:10:07
+    exit=0 results=90
+=== nsigma__re2-tt tdelta=-120 2026-10-12 03:10:21
+    exit=0 results=90
+=== baro__re2-ob tdelta=-120 2026-10-12 03:11:08
+    exit=0 results=90
+=== baro__re2-ss tdelta=-120 2026-10-12 03:11:22
+    exit=0 results=90
+=== baro__re2-tt tdelta=-120 2026-10-12 03:11:37
+    exit=0 results=90
+{'rcaeval:baro': 270, 'rcaeval:nsigma': 270}
+cases without a ranking (scored as chance): {'rcaeval:baro': 0, 'rcaeval:nsigma': 0}
+=== nsigma__re2-ob tdelta=120 2026-10-12 03:12:30
+    exit=0 results=90
+=== nsigma__re2-ss tdelta=120 2026-10-12 03:12:44
+    exit=0 results=90
+=== nsigma__re2-tt tdelta=120 2026-10-12 03:12:58
+    exit=0 results=90
+=== baro__re2-ob tdelta=120 2026-10-12 03:13:46
+    exit=0 results=90
+=== baro__re2-ss tdelta=120 2026-10-12 03:14:00
+    exit=0 results=90
+=== baro__re2-tt tdelta=120 2026-10-12 03:14:16
+    exit=0 results=90
+{'rcaeval:baro': 270, 'rcaeval:nsigma': 270}
+cases without a ranking (scored as chance): {'rcaeval:baro': 0, 'rcaeval:nsigma': 0}
+=== amendment 4 part B finished 2026-10-12 03:15:07
