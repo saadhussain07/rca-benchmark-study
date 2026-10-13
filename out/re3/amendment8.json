@@ -1,0 +1,128 @@
+{
+ "Primary": {
+  "tests": {
+   "H8a evidence effect (generic - deployed user message), RE2+RE3 flagged": {
+    "n": 323,
+    "a": 274.0,
+    "b": 178.5,
+    "diff": 0.29566563467492263,
+    "ci": [
+     0.2252375081856607,
+     0.3696403303006704
+    ],
+    "p_perm": 9.999000099990002e-05,
+    "a_only": 97,
+    "b_only": 6,
+    "p_mcnemar": 3.0015862863275967e-22,
+    "p_exact": 0.0,
+    "k_nonzero": 68,
+    "p_holm": 0.00029997000299970003,
+    "p_holm_exact": 0.0
+   },
+   "H8b prompt effect (generic - deployed system prompt), RE2+RE3 flagged": {
+    "n": 323,
+    "a": 234.5,
+    "b": 218.0,
+    "diff": 0.05108359133126935,
+    "ci": [
+     0.020249221183800622,
+     0.08333333333333333
+    ],
+    "p_perm": 0.0027997200279972004,
+    "a_only": 21,
+    "b_only": 6,
+    "p_mcnemar": 0.005924612283706665,
+    "p_exact": 0.002514,
+    "k_nonzero": 51,
+    "p_holm": 0.0027997200279972004,
+    "p_holm_exact": 0.002514
+   },
+   "H8c generic g_full: given onset - onset +120 s, RE2+RE3": {
+    "n": 360,
+    "a": 315,
+    "b": 105,
+    "diff": 0.5833333333333334,
+    "ci": [
+     0.5096926346146549,
+     0.6526610644257703
+    ],
+    "p_perm": 9.999000099990002e-05,
+    "a_only": 214,
+    "b_only": 4,
+    "p_mcnemar": 4.427973056247032e-58,
+    "p_exact": 0.0,
+    "k_nonzero": 97,
+    "p_holm": 0.00029997000299970003,
+    "p_holm_exact": 0.0
+   }
+  },
+  "verdicts": {
+   "H8a": "supported",
+   "H8b": "generic prompt better",
+   "H8c": "supported"
+  }
+ },
+ "Sensitivity: without 6 RE3 pilot cases": {
+  "tests": {
+   "H8a evidence effect (generic - deployed user message), RE2+RE3 flagged": {
+    "n": 318,
+    "a": 269.5,
+    "b": 176.0,
+    "diff": 0.2940251572327044,
+    "ci": [
+     0.2240112621753247,
+     0.3677041800643086
+    ],
+    "p_perm": 9.999000099990002e-05,
+    "a_only": 95,
+    "b_only": 6,
+    "p_mcnemar": 1.0655959865887333e-21,
+    "p_exact": 0.0,
+    "k_nonzero": 68,
+    "p_holm": 0.00029997000299970003,
+    "p_holm_exact": 0.0
+   },
+   "H8b prompt effect (generic - deployed system prompt), RE2+RE3 flagged": {
+    "n": 318,
+    "a": 231.0,
+    "b": 214.5,
+    "diff": 0.05188679245283019,
+    "ci": [
+     0.021873296339563864,
+     0.08359145335039211
+    ],
+    "p_perm": 0.0016998300169983002,
+    "a_only": 20,
+    "b_only": 6,
+    "p_mcnemar": 0.009355306625366211,
+    "p_exact": 0.00176,
+    "k_nonzero": 51,
+    "p_holm": 0.0016998300169983002,
+    "p_holm_exact": 0.00176
+   },
+   "H8c generic g_full: given onset - onset +120 s, RE2+RE3": {
+    "n": 354,
+    "a": 309,
+    "b": 103,
+    "diff": 0.5819209039548022,
+    "ci": [
+     0.5084407745424695,
+     0.6505681818181818
+    ],
+    "p_perm": 9.999000099990002e-05,
+    "a_only": 210,
+    "b_only": 4,
+    "p_mcnemar": 6.577832055731682e-57,
+    "p_exact": 0.0,
+    "k_nonzero": 97,
+    "p_holm": 0.00029997000299970003,
+    "p_holm_exact": 0.0
+   }
+  },
+  "verdicts": {
+   "H8a": "supported",
+   "H8b": "generic prompt better",
+   "H8c": "supported"
+  }
+ }
+}
