@@ -40,9 +40,14 @@ def main():
     ap.add_argument("--suite", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--onset-shift", type=int, default=0,
+                    help="Amendment 8: seconds added to the injection time the windows are placed from "
+                         "(write to a separate --out); ground truth unchanged")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     cases = D.discover(a.root, a.suite)[: a.limit]
+    for c in cases:
+        c.inject_time += a.onset_shift
     n_fail = 0
     with open(os.path.join(a.out, "contexts.jsonl"), "w", encoding="utf-8") as fo, \
             open(os.path.join(a.out, "build_log.txt"), "w") as lg:
